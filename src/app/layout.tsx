@@ -1,5 +1,18 @@
 import type { Metadata } from "next";
+import { Quicksand, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  variable: "--font-quicksand",
+  display: "swap",
+});
+
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-source-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Avondvierdaagse Drunen — Vergelijk Huisstijlen",
@@ -13,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl">
-      <body className="antialiased">
+      <body className={`${quicksand.variable} ${sourceSans.variable} antialiased`}>
         {children}
       </body>
     </html>

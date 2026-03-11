@@ -27,6 +27,43 @@ function Fireflies() {
   );
 }
 
+function Countdown() {
+  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  useEffect(() => {
+    const target = new Date("2026-06-02T18:30:00").getTime();
+    const tick = () => {
+      const diff = Math.max(0, target - Date.now());
+      setTime({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff / 3600000) % 24),
+        m: Math.floor((diff / 60000) % 60),
+        s: Math.floor((diff / 1000) % 60),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const units = [
+    { label: "Dagen", val: time.d },
+    { label: "Uren", val: time.h },
+    { label: "Min", val: time.m },
+    { label: "Sec", val: time.s },
+  ];
+
+  return (
+    <div className="flex gap-3 justify-center mt-10">
+      {units.map((u) => (
+        <div key={u.label} className="bg-[#2D3B55]/80 backdrop-blur-md rounded-xl px-4 py-3 min-w-[72px] text-center border border-[#F5C84C]/30 shadow-[0_0_20px_rgba(245,200,76,0.15)]">
+          <div className="font-['Quicksand'] font-bold text-2xl text-[#F5C84C]">{String(u.val).padStart(2, "0")}</div>
+          <div className="font-['Source_Sans_3'] text-xs text-white/40 uppercase tracking-wider">{u.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function NavBar() {
   const [open, setOpen] = useState(false);
   const links = ["Home", "Routes", "Vrijwilligers", "Foto's", "Organisatie", "Sponsors", "FAQ", "Contact"];
@@ -102,14 +139,6 @@ function Hero() {
         <path d="M680,200 Q700,170 710,155 Q720,145 740,140" fill="none" stroke="#F0E6D3" strokeWidth="3" opacity="0.3" />
       </svg>
 
-      {/* Lantern */}
-      <div className="absolute bottom-[32vh] left-1/2 -translate-x-1/2">
-        <div className="relative">
-          <div className="w-3 h-12 bg-[#5C4A32] mx-auto" />
-          <div className="w-10 h-14 bg-[#F5C84C]/80 rounded-md mx-auto -mt-1 shadow-[0_0_30px_10px_rgba(245,200,76,0.3)]" />
-        </div>
-      </div>
-
       {/* Content */}
       <div className="relative z-10 w-full pb-[35vh]">
         <div className="max-w-3xl mx-auto px-4 text-center">
@@ -129,10 +158,14 @@ function Hero() {
             <a href="#inschrijven" className="inline-flex items-center justify-center px-10 py-5 rounded-full font-['Quicksand'] font-bold text-lg text-[#2D3B55] bg-[#F5C84C] hover:bg-[#f0c030] transition-colors shadow-lg shadow-[#F5C84C]/20">
               Schrijf je in
             </a>
-            <a href="#routes" className="inline-flex items-center justify-center px-10 py-5 rounded-full font-['Quicksand'] font-bold text-lg text-white border-2 border-white/30 hover:bg-white/10 transition-colors">
+            <a href="#routes" className="inline-flex items-center justify-center px-10 py-5 rounded-full font-['Quicksand'] font-bold text-lg text-[#2D3B55] bg-white/90 hover:bg-white transition-colors">
               Bekijk routes
             </a>
+            <a href="#" className="inline-flex items-center justify-center px-10 py-5 rounded-full font-['Quicksand'] font-bold text-lg text-[#2D3B55] bg-[#E8773A] hover:bg-[#d56930] transition-colors text-white">
+              Word vrijwilliger
+            </a>
           </div>
+          <Countdown />
         </div>
       </div>
 

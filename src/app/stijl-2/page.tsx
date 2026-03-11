@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /* ─── Stijl 2: Warm & Gezellig ─── */
 /* Kleuren: #E85D2A (terracotta), #2B6B4F (bosgroen), #F5C842 (geel) */
@@ -49,6 +49,43 @@ function NavBar() {
   );
 }
 
+function Countdown() {
+  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  useEffect(() => {
+    const target = new Date("2026-06-02T18:30:00").getTime();
+    const tick = () => {
+      const diff = Math.max(0, target - Date.now());
+      setTime({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff / 3600000) % 24),
+        m: Math.floor((diff / 60000) % 60),
+        s: Math.floor((diff / 1000) % 60),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const units = [
+    { label: "Dagen", val: time.d },
+    { label: "Uren", val: time.h },
+    { label: "Min", val: time.m },
+    { label: "Sec", val: time.s },
+  ];
+
+  return (
+    <div className="flex gap-3 justify-center md:justify-start mt-8">
+      {units.map((u) => (
+        <div key={u.label} className="bg-white rounded-2xl shadow-md px-4 py-3 min-w-[72px] text-center">
+          <div className="font-['Quicksand'] font-bold text-2xl text-[#E85D2A]">{String(u.val).padStart(2, "0")}</div>
+          <div className="font-['Source_Sans_3'] text-xs text-[#2B6B4F] uppercase tracking-wider">{u.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#FFF9F0]">
@@ -83,7 +120,11 @@ function Hero() {
             <a href="#routes" className="inline-flex items-center justify-center px-8 py-4 rounded-2xl font-['Quicksand'] font-bold text-lg text-[#2B6B4F] border-2 border-[#2B6B4F]/30 hover:bg-[#2B6B4F]/5 transition-colors">
               Bekijk routes &rarr;
             </a>
+            <a href="#" className="inline-flex items-center justify-center px-8 py-4 rounded-2xl font-['Quicksand'] font-bold text-lg text-[#F5C842] bg-[#2B6B4F] hover:bg-[#224538] transition-colors">
+              Word vrijwilliger
+            </a>
           </div>
+          <Countdown />
         </div>
         {/* Placeholder image area */}
         <div className="relative">
