@@ -39,12 +39,19 @@ git push origin main
 3. **Laad de content in de pagina via `src/lib/content.ts`** — voeg een getter-functie en type toe
 4. **Hardcode NOOIT teksten direct in pagina-componenten** — alle bewerkbare tekst moet uit de JSON content komen
 5. **Commit altijd zowel het schema (`tina/config.ts`) als de content (`content/`) bestanden**
-6. **Regenereer ALTIJD de Tina generated files** na schema- of contentwijzigingen:
+6. **Regenereer ALTIJD de Tina lock file en generated files** na schema-wijzigingen:
    ```bash
+   # Start tinacms dev kort om tina-lock.json te updaten (BELANGRIJK!)
+   npx tinacms dev -c "echo done" --port 5180
+   # Daarna build voor generated files
    npx tinacms build --skip-cloud-checks
+   # Stage alles
+   git add tina/tina-lock.json
    git add -f tina/__generated__ public/admin/index.html
    ```
-   Deze files MOETEN mee in de commit, anders krijgt TinaCloud een GraphQL schema mismatch.
+   **`tina-lock.json` is cruciaal** — TinaCloud gebruikt dit bestand om te indexeren, NIET `tina/config.ts` direct.
+   `tinacms build` update de lock file NIET, alleen `tinacms dev` doet dat.
+   Zonder bijgewerkte lock file krijg je een GraphQL schema mismatch in het admin panel.
 
 ### Checklist voor nieuwe pagina's:
 - [ ] Collectie schema in `tina/config.ts`
@@ -52,7 +59,8 @@ git push origin main
 - [ ] Type + getter in `src/lib/content.ts`
 - [ ] Pagina laadt content via getter (server component)
 - [ ] Gedeelde componenten gebruiken: `NavBar`, `Footer`, `PageHero`, `Bunting`
-- [ ] `npx tinacms build --skip-cloud-checks` draaien en generated files mee committen
+- [ ] `tinacms dev` draaien om `tina-lock.json` te updaten, daarna `tinacms build --skip-cloud-checks`
+- [ ] `tina/tina-lock.json` + `tina/__generated__` + `public/admin/index.html` mee committen
 
 ### Wat WEL hardcoded mag:
 - Layout/structuur (kleuren, spacing, grid)
@@ -96,9 +104,10 @@ git push origin main
 2. content/<naam>/    → maak JSON bestand(en) aan
 3. src/lib/content.ts → voeg TypeScript type + getter functie toe
 4. src/app/<route>/   → importeer getter, laad data, render in component
-5. npx tinacms build --skip-cloud-checks → regenereer generated files
-6. git add -f tina/__generated__ public/admin/index.html → stage generated files
-7. git push           → TinaCloud indexeert automatisch
+5. npx tinacms dev -c "echo done" --port 5180 → update tina-lock.json (CRUCIAAL!)
+6. npx tinacms build --skip-cloud-checks → regenereer generated files
+7. git add tina/tina-lock.json && git add -f tina/__generated__ public/admin/index.html
+8. git push           → TinaCloud indexeert automatisch
 ```
 
 ## Lessen & conventies
