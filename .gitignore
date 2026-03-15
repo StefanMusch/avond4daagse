@@ -42,8 +42,7 @@ next-env.d.ts
 
 .vercel
 
-# tina
-/tina/__generated__
+# tina - __generated__ MOET in git staan voor TinaCloud
 
 node_modules
 .env
