@@ -8,7 +8,7 @@ export default function Home() {
           Avondvierdaagse Drunen
         </h1>
         <p className="text-lg text-gray-600 mb-12">
-          4 opties &mdash; welke wordt het?
+          5 opties &mdash; welke wordt het?
         </p>
         <div className="grid gap-6">
           <Link
@@ -57,6 +57,23 @@ export default function Home() {
               Dorpsfeest &mdash; Vlaggetjes &amp; Slingers
             </h2>
             <p className="text-gray-500 text-sm">Feestelijke kermis-sfeer, gebogen secties, speelse kaarten</p>
+          </Link>
+
+          <Link
+            href="/stijl-3a"
+            className="block p-8 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow border-l-4"
+            style={{ borderLeftColor: "#E6007E" }}
+          >
+            <div className="flex gap-3 mb-3 justify-center">
+              <span className="w-8 h-8 rounded-full" style={{ background: "#E6007E" }} />
+              <span className="w-8 h-8 rounded-full" style={{ background: "#9B1B5A" }} />
+              <span className="w-8 h-8 rounded-full" style={{ background: "#8CB808" }} />
+              <span className="w-8 h-8 rounded-full" style={{ background: "#2B9AC8" }} />
+            </div>
+            <h2 className="text-2xl font-bold mb-1" style={{ color: "#E6007E" }}>
+              Dorpsfeest &mdash; Logokleuren
+            </h2>
+            <p className="text-gray-500 text-sm">Stijl 3 met officieel logo + kleuren, &quot;Drunen&quot; verwerkt</p>
           </Link>
 
           <Link
