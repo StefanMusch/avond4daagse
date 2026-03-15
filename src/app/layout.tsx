@@ -15,8 +15,9 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "Avondvierdaagse Drunen — Vergelijk Huisstijlen",
-  description: "Kies een huisstijl voor de Avondvierdaagse Drunen website",
+  title: "Avondvierdaagse Drunen — Héél Drunen wandelt weer!",
+  description:
+    "De 57e editie van de Avondvierdaagse Drunen. 2 t/m 5 juni 2026. Kies uit 3, 5 of 7,5 kilometer.",
 };
 
 export default function RootLayout({
