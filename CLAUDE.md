@@ -4,7 +4,7 @@
 - **Framework:** Next.js 16 (App Router, TypeScript, Tailwind CSS)
 - **Hosting:** Vercel (https://avond4daagse.vercel.app)
 - **Repo:** https://github.com/StefanMusch/avond4daagse
-- **CMS:** Tina CMS (schema klaar, TinaCloud nog te koppelen)
+- **CMS:** Tina CMS (TinaCloud gekoppeld, admin op `/admin`)
 - **Back-end:** Supabase (formulieren, inschrijvingen — nog te koppelen)
 - **Fonts:** Quicksand (headings), Source Sans 3 (body) via next/font/google
 
@@ -29,27 +29,68 @@ git push origin main
 ```
 > GitHub is gekoppeld aan Vercel — elke push naar `main` triggert automatisch een deploy.
 
+## BELANGRIJK: Content & Tina CMS regels
+
+**Alle bewerkbare content MOET via Tina CMS werken.** Dit geldt voor nieuwe pagina's, secties, en teksten.
+
+### Bij het toevoegen van nieuwe content of pagina's:
+1. **Voeg ALTIJD eerst een collectie toe in `tina/config.ts`** met de juiste velden
+2. **Maak een JSON bestand aan in `content/<collectienaam>/`** met de initiële data
+3. **Laad de content in de pagina via `src/lib/content.ts`** — voeg een getter-functie en type toe
+4. **Hardcode NOOIT teksten direct in pagina-componenten** — alle bewerkbare tekst moet uit de JSON content komen
+5. **Commit altijd zowel het schema (`tina/config.ts`) als de content (`content/`) bestanden**
+
+### Checklist voor nieuwe pagina's:
+- [ ] Collectie schema in `tina/config.ts`
+- [ ] JSON content bestand(en) in `content/`
+- [ ] Type + getter in `src/lib/content.ts`
+- [ ] Pagina laadt content via getter (server component)
+- [ ] Gedeelde componenten gebruiken: `NavBar`, `Footer`, `PageHero`, `Bunting`
+
+### Wat WEL hardcoded mag:
+- Layout/structuur (kleuren, spacing, grid)
+- Navigatie-links (staan in NavBar component)
+- Statische UI-elementen (knoppen, iconen, decoratie)
+
+### Wat NIET hardcoded mag:
+- Paginatitels en beschrijvingen
+- FAQ vragen en antwoorden
+- Sponsor namen en logo's
+- Bestuursleden namen en functies
+- Route informatie
+- Contact gegevens
+- Evenement data (datum, editie, etc.)
+
 ## Content beheer (CMS)
 - Content staat in `content/` directory als JSON bestanden
 - Schema's gedefinieerd in `tina/config.ts`
 - Pagina's laden content via `src/lib/content.ts` helper
-- **Om TinaCloud te koppelen:**
-  1. Account aanmaken op tina.io
-  2. Project koppelen aan GitHub repo
-  3. `NEXT_PUBLIC_TINA_CLIENT_ID` en `TINA_TOKEN` instellen als env vars
-  4. Build script aanpassen: `"build": "tinacms build && next build"`
-  5. Admin beschikbaar op `/admin`
+- Admin panel: `/admin` (via TinaCloud)
+- Dev met CMS: `npm run dev` (start Tina + Next.js samen)
+- Build: `tinacms build && next build` (automatisch via `npm run build`)
+- Env vars (in `.env` lokaal, in Vercel dashboard voor productie):
+  - `NEXT_PUBLIC_TINA_CLIENT_ID`
+  - `TINA_TOKEN`
 
 ### Content collecties
 | Collectie | Pad | Beschrijving |
 |-----------|-----|-------------|
 | home | content/home/ | Homepage hero, info kaarten |
-| routes | content/routes/ | 3km, 5km, 7.5km routes |
+| route | content/routes/ | 3km, 5km, 7.5km routes |
 | faqItem | content/faq/ | Veelgestelde vragen |
 | sponsor | content/sponsors/ | Sponsor namen + logo's |
 | boardMember | content/organisatie/ | Bestuursleden |
 | volunteerGroup | content/vrijwilligers/ | Vrijwilligersgroepen |
 | siteSettings | content/settings/ | Contact info, KvK etc. |
+
+### Nieuwe collectie toevoegen (stap-voor-stap)
+```
+1. tina/config.ts     → voeg collectie toe aan schema.collections[]
+2. content/<naam>/    → maak JSON bestand(en) aan
+3. src/lib/content.ts → voeg TypeScript type + getter functie toe
+4. src/app/<route>/   → importeer getter, laad data, render in component
+5. git push           → TinaCloud indexeert automatisch
+```
 
 ## Lessen & conventies
 - **Productie-server:** `next build && next start` — de server herlaadt NIET na een rebuild
@@ -60,17 +101,17 @@ git push origin main
 - **Componenten:** Gedeelde componenten in `src/components/` (NavBar, Footer, Bunting, Countdown, PageHero)
 
 ## Pagina's
-| Route | Pagina | Status |
-|-------|--------|--------|
-| `/` | Homepage | Klaar |
-| `/routes` | Routes met kaart | Klaar (Maps placeholder) |
-| `/inschrijven` | Inschrijfformulier | UI klaar (Supabase nog te koppelen) |
-| `/vrijwilligers` | Vrijwilligers info | Klaar |
-| `/fotos` | Fotogalerij | Klaar (placeholders) |
-| `/organisatie` | Bestuur + historie | Klaar |
-| `/sponsors` | Sponsors overzicht | Klaar (logo placeholders) |
-| `/faq` | Veelgestelde vragen | Klaar |
-| `/contact` | Contact + formulier | UI klaar (Supabase nog te koppelen) |
+| Route | Pagina | Content-driven | Status |
+|-------|--------|----------------|--------|
+| `/` | Homepage | Ja (home) | Klaar |
+| `/routes` | Routes met kaart | Ja (route) | Klaar (Maps placeholder) |
+| `/inschrijven` | Inschrijfformulier | Nee (formulier) | UI klaar (Supabase nog te koppelen) |
+| `/vrijwilligers` | Vrijwilligers info | Deels | Klaar |
+| `/fotos` | Fotogalerij | Nee (placeholders) | Klaar |
+| `/organisatie` | Bestuur + historie | Deels | Klaar |
+| `/sponsors` | Sponsors overzicht | Ja (sponsor) | Klaar (logo placeholders) |
+| `/faq` | Veelgestelde vragen | Ja (faqItem) | Klaar |
+| `/contact` | Contact + formulier | Nee (formulier) | UI klaar (Supabase nog te koppelen) |
 
 ## Roadmap
 
@@ -100,8 +141,9 @@ git push origin main
 - [x] Content schema's definiëren (tina/config.ts)
 - [x] JSON content bestanden aanmaken
 - [x] Pagina's migreren naar content-driven (homepage, FAQ, sponsors, routes)
-- [ ] TinaCloud account aanmaken en koppelen
-- [ ] Admin route (`/admin`) activeren
+- [x] TinaCloud account aanmaken en koppelen
+- [x] Env vars instellen (lokaal + Vercel)
+- [ ] Admin route (`/admin`) testen en valideren
 - [ ] Bestuursleden toegang geven
 
 ### Fase 4 — Back-end (Supabase)
