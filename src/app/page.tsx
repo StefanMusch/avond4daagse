@@ -4,8 +4,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Bunting from "@/components/Bunting";
 import Countdown from "@/components/Countdown";
-import { getHomeContent, getSponsors, getFAQs } from "@/lib/content";
-import type { HomeContent, SponsorContent, FAQContent } from "@/lib/content";
+import { getHomeContent, getSponsors, getFAQs, getRoutes, getSiteSettings } from "@/lib/content";
+import type { HomeContent, SponsorContent, FAQContent, RouteContent } from "@/lib/content";
 
 function Hero({ content }: { content: HomeContent }) {
   return (
@@ -86,12 +86,9 @@ function InfoCards({ cards }: { cards: HomeContent["infoCards"] }) {
   );
 }
 
-function Routes() {
-  const routes = [
-    { km: "3", label: "Ontdek", desc: "Gezellige korte ronde door het centrum. Ideaal voor kleintjes!", color: "#2B9AC8", icon: "🐣" },
-    { km: "5", label: "Geniet", desc: "De populairste route! Langs de mooiste plekjes van Drunen.", color: "#E6007E", icon: "🌷" },
-    { km: "8", label: "Uitdaging", desc: "Door het buitengebied en de Loonse Duinen. Voor de doorzetters!", color: "#8CB808", icon: "🦊" },
-  ];
+function Routes({ routes, title, subtitle }: { routes: RouteContent[]; title: string; subtitle: string }) {
+  const colors = ["#2B9AC8", "#E6007E", "#8CB808"];
+  const icons = ["🐣", "🌷", "🦊"];
 
   return (
     <section className="relative py-20 px-4 bg-[#FFF8F2]">
@@ -101,33 +98,38 @@ function Routes() {
 
       <div className="max-w-5xl mx-auto pt-8">
         <h2 className="font-['Quicksand'] font-bold text-3xl md:text-4xl text-center text-[#4A4A4A] mb-3">
-          Kies je route
+          {title}
         </h2>
         <p className="font-['Source_Sans_3'] text-center text-[#4A4A4A]/60 mb-12 max-w-md mx-auto">
-          Welke afstand past bij jou? Er is voor ieder wat wils!
+          {subtitle}
         </p>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {routes.map((r, i) => (
-            <div key={r.km} className="relative" style={{ transform: `rotate(${i === 1 ? '0' : i === 0 ? '-1.5' : '1.5'}deg)` }}>
-              <div className="bg-white rounded-lg overflow-hidden shadow-lg border-2 border-dashed" style={{ borderColor: r.color }}>
-                <div className="p-3 text-center text-white font-['Quicksand'] font-bold" style={{ backgroundColor: r.color }}>
-                  {r.icon} {r.label}
-                </div>
-                <div className="p-6 text-center">
-                  <div className="font-['Quicksand'] font-bold text-6xl mb-1" style={{ color: r.color }}>{r.km}</div>
-                  <div className="font-['Quicksand'] font-bold text-xl mb-4" style={{ color: r.color }}>kilometer</div>
-                  <p className="font-['Source_Sans_3'] text-[#4A4A4A]/70 text-sm">{r.desc}</p>
-                </div>
-                <div className="border-t-2 border-dashed mx-4" style={{ borderColor: r.color + "40" }} />
-                <div className="p-3 text-center">
-                  <span className="font-['Quicksand'] font-bold text-xs uppercase tracking-wider" style={{ color: r.color }}>
-                    Avond4daagse Drunen 2026
-                  </span>
+          {routes.map((r, i) => {
+            const color = colors[i % colors.length];
+            const icon = icons[i % icons.length];
+            const km = r.distance.replace(/[^0-9.,]/g, "");
+            return (
+              <div key={r.name} className="relative" style={{ transform: `rotate(${i === 1 ? '0' : i === 0 ? '-1.5' : '1.5'}deg)` }}>
+                <div className="bg-white rounded-lg overflow-hidden shadow-lg border-2 border-dashed" style={{ borderColor: color }}>
+                  <div className="p-3 text-center text-white font-['Quicksand'] font-bold" style={{ backgroundColor: color }}>
+                    {icon} {r.name}
+                  </div>
+                  <div className="p-6 text-center">
+                    <div className="font-['Quicksand'] font-bold text-6xl mb-1" style={{ color }}>{km}</div>
+                    <div className="font-['Quicksand'] font-bold text-xl mb-4" style={{ color }}>kilometer</div>
+                    <p className="font-['Source_Sans_3'] text-[#4A4A4A]/70 text-sm">{r.description}</p>
+                  </div>
+                  <div className="border-t-2 border-dashed mx-4" style={{ borderColor: color + "40" }} />
+                  <div className="p-3 text-center">
+                    <span className="font-['Quicksand'] font-bold text-xs uppercase tracking-wider" style={{ color }}>
+                      Avond4daagse Drunen 2026
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="text-center mt-10">
@@ -140,16 +142,16 @@ function Routes() {
   );
 }
 
-function RegistrationCTA() {
+function RegistrationCTA({ title, description }: { title: string; description: string }) {
   return (
     <section className="relative py-20 px-4 bg-[#E6007E]/5">
       <Bunting colors={["#E6007E", "#8CB808", "#2B9AC8"]} />
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="font-['Quicksand'] font-bold text-3xl md:text-4xl text-[#4A4A4A] mb-3">
-          Doe je mee?
+          {title}
         </h2>
         <p className="font-['Source_Sans_3'] text-[#4A4A4A]/60 mb-8">
-          Schrijf je in vóór 1 juni 2026! De inschrijfkosten zijn €5,- per persoon.
+          {description}
         </p>
         <Link
           href="/inschrijven"
@@ -220,17 +222,19 @@ export default function Home() {
   const homeContent = getHomeContent();
   const sponsors = getSponsors();
   const faqs = getFAQs();
+  const routes = getRoutes();
+  const settings = getSiteSettings();
 
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
       <NavBar />
       <Hero content={homeContent} />
       <InfoCards cards={homeContent.infoCards} />
-      <Routes />
-      <RegistrationCTA />
+      <Routes routes={routes} title={homeContent.routeSectionTitle} subtitle={homeContent.routeSectionSubtitle} />
+      <RegistrationCTA title={homeContent.ctaTitle} description={homeContent.ctaDescription} />
       <SponsorsSection sponsors={sponsors} />
       <FAQPreview faqs={faqs} />
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

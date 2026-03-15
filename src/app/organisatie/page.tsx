@@ -1,27 +1,22 @@
-"use client";
-
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
+import { getBoardMembers, getPageContent, getSiteSettings } from "@/lib/content";
 
-const bestuursleden = [
-  { naam: "Elia Hendriks", rol: "Voorzitter", color: "#E6007E", rotate: "-2deg" },
-  { naam: "Nicole Bakker", rol: "Secretaris", color: "#2B9AC8", rotate: "1.5deg" },
-  { naam: "Bjorn van Gool", rol: "Penningmeester", color: "#8CB808", rotate: "-1deg" },
-  { naam: "Sandra van den Hoven", rol: "Sponsoring en catering", color: "#9B1B5A", rotate: "2deg" },
-  { naam: "Kasper Brok", rol: "Inschrijven", color: "#E6007E", rotate: "-1.5deg" },
-  { naam: "Christel Brok-Stravers", rol: "Sponsoring en catering", color: "#2B9AC8", rotate: "1deg" },
-  { naam: "Bente Brok", rol: "Bestuurslid", color: "#8CB808", rotate: "-2deg" },
-  { naam: "Judith Huibertse", rol: "Verkeersregelaars", color: "#9B1B5A", rotate: "1.5deg" },
-];
+const colors = ["#E6007E", "#2B9AC8", "#8CB808", "#9B1B5A"];
+const rotations = ["-2deg", "1.5deg", "-1deg", "2deg", "-1.5deg", "1deg", "-2deg", "1.5deg"];
 
 export default function OrganisatiePage() {
+  const bestuursleden = getBoardMembers();
+  const page = getPageContent("organisatie");
+  const settings = getSiteSettings();
+
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
       <NavBar />
       <PageHero
-        title="Organisatie"
-        subtitle="Stichting Avond4daagse Drunen"
+        title={page?.title ?? "Organisatie"}
+        subtitle={page?.subtitle ?? "Stichting Avond4daagse Drunen"}
       />
 
       {/* Over de stichting */}
@@ -38,10 +33,8 @@ export default function OrganisatiePage() {
             }}
           >
             <p className="font-['Source_Sans_3'] text-[#4A4A4A] text-lg leading-relaxed">
-              De stichting is opgericht in 2010. De organiserende partijen
-              besloten een juridisch zelfstandige organisatie op te richten,
-              opdat een organisatie zou ontstaan die kan zorgen voor meer
-              continu&iuml;teit.
+              {page?.aboutText ??
+                "De stichting is opgericht in 2010. De organiserende partijen besloten een juridisch zelfstandige organisatie op te richten, opdat een organisatie zou ontstaan die kan zorgen voor meer continu\u00EFteit."}
             </p>
           </div>
         </div>
@@ -61,9 +54,8 @@ export default function OrganisatiePage() {
             }}
           >
             <p className="font-['Source_Sans_3'] text-[#4A4A4A] text-lg leading-relaxed">
-              De avond4daagse heeft in Drunen een lange historie en is ontstaan
-              in de periode dat de Duinrakkers een wandelclub was in Drunen.
-              Sindsdien zijn veel mensen bij de organisatie betrokken geweest.
+              {page?.historyText ??
+                "De avond4daagse heeft in Drunen een lange historie en is ontstaan in de periode dat de Duinrakkers een wandelclub was in Drunen. Sindsdien zijn veel mensen bij de organisatie betrokken geweest."}
             </p>
           </div>
         </div>
@@ -76,38 +68,42 @@ export default function OrganisatiePage() {
             Bestuur
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bestuursleden.map((lid) => (
-              <div
-                key={lid.naam}
-                className="bg-[#FFF8F2] p-6 shadow-lg border-2 border-dashed hover:shadow-xl transition-shadow"
-                style={{
-                  borderColor: lid.color,
-                  borderRadius: "4px 16px 4px 16px",
-                  transform: `rotate(${lid.rotate})`,
-                }}
-              >
-                {/* Avatar placeholder */}
+            {bestuursleden.map((lid, i) => {
+              const color = colors[i % colors.length];
+              const rotate = rotations[i % rotations.length];
+              return (
                 <div
-                  className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-['Quicksand'] font-bold text-xl"
-                  style={{ backgroundColor: lid.color }}
+                  key={lid.name}
+                  className="bg-[#FFF8F2] p-6 shadow-lg border-2 border-dashed hover:shadow-xl transition-shadow"
+                  style={{
+                    borderColor: color,
+                    borderRadius: "4px 16px 4px 16px",
+                    transform: `rotate(${rotate})`,
+                  }}
                 >
-                  {lid.naam
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 2)}
+                  {/* Avatar placeholder */}
+                  <div
+                    className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-['Quicksand'] font-bold text-xl"
+                    style={{ backgroundColor: color }}
+                  >
+                    {lid.name
+                      .split(" ")
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 2)}
+                  </div>
+                  <h3 className="font-['Quicksand'] font-bold text-lg text-[#4A4A4A] text-center mb-1">
+                    {lid.name}
+                  </h3>
+                  <p
+                    className="font-['Source_Sans_3'] text-sm text-center font-semibold"
+                    style={{ color }}
+                  >
+                    {lid.role}
+                  </p>
                 </div>
-                <h3 className="font-['Quicksand'] font-bold text-lg text-[#4A4A4A] text-center mb-1">
-                  {lid.naam}
-                </h3>
-                <p
-                  className="font-['Source_Sans_3'] text-sm text-center font-semibold"
-                  style={{ color: lid.color }}
-                >
-                  {lid.rol}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -124,17 +120,14 @@ export default function OrganisatiePage() {
           >
             <div className="text-4xl mb-4">&#9733;</div>
             <p className="font-['Source_Sans_3'] text-[#4A4A4A] text-lg leading-relaxed">
-              Speciale aandacht gaat uit naar onze routebouwer,{" "}
-              <strong className="font-['Quicksand'] text-[#E6007E]">
-                Jo Leijtens
-              </strong>
-              , hij dient de avond4daagse al ruim 45 jaar.
+              {page?.specialMention ??
+                "Speciale aandacht gaat uit naar onze routebouwer, Jo Leijtens, hij dient de avond4daagse al ruim 45 jaar."}
             </p>
           </div>
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

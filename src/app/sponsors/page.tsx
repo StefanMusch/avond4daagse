@@ -2,26 +2,28 @@ import Link from "next/link";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
-import { getSponsors } from "@/lib/content";
+import { getSponsors, getPageContent, getSiteSettings } from "@/lib/content";
 
 const colors = ["#E6007E", "#9B1B5A", "#8CB808", "#2B9AC8"];
 
 export default function SponsorsPage() {
   const sponsors = getSponsors();
+  const page = getPageContent("sponsors");
+  const settings = getSiteSettings();
 
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
       <NavBar />
       <PageHero
-        title="Sponsors"
-        subtitle="Zonder hen is het niet mogelijk"
+        title={page?.title ?? "Sponsors"}
+        subtitle={page?.subtitle ?? "Zonder hen is het niet mogelijk"}
       />
 
       <section className="py-16 px-4 bg-[#9B1B5A]">
         <div className="max-w-3xl mx-auto text-center">
           <p className="font-['Source_Sans_3'] text-white/90 text-lg leading-relaxed">
-            Hieronder een overzicht van onze sponsors. Zonder onze sponsors is
-            de organisatie van onze Avond4daagse niet mogelijk.
+            {page?.introText ??
+              "Hieronder een overzicht van onze sponsors. Zonder onze sponsors is de organisatie van onze Avond4daagse niet mogelijk."}
           </p>
         </div>
       </section>
@@ -58,11 +60,11 @@ export default function SponsorsPage() {
       <section className="py-16 px-4 bg-[#8CB808]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-['Quicksand'] font-bold text-3xl text-white mb-4">
-            Word sponsor van de Avond4daagse Drunen!
+            {page?.ctaTitle ?? "Word sponsor van de Avond4daagse Drunen!"}
           </h2>
           <p className="font-['Source_Sans_3'] text-white/90 text-lg mb-8">
-            Neem contact op met Sandra van den Hoven of Christel Brok-Stravers
-            via ons contactformulier.
+            {page?.ctaDescription ??
+              "Neem contact op met Sandra van den Hoven of Christel Brok-Stravers via ons contactformulier."}
           </p>
           <Link
             href="/contact"
@@ -74,7 +76,7 @@ export default function SponsorsPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

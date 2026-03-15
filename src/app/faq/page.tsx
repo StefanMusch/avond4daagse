@@ -1,12 +1,13 @@
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
-import { getFAQs } from "@/lib/content";
+import { getFAQs, getSiteSettings } from "@/lib/content";
 
 const colors = ["#E6007E", "#9B1B5A", "#8CB808", "#2B9AC8"];
 
 export default function FAQPage() {
   const faqs = getFAQs();
+  const settings = getSiteSettings();
 
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
@@ -50,7 +51,7 @@ export default function FAQPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

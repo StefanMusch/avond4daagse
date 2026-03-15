@@ -2,7 +2,7 @@ import Link from "next/link";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
-import { getRoutes } from "@/lib/content";
+import { getRoutes, getSiteSettings } from "@/lib/content";
 
 const routeStyles = [
   { color: "#2B9AC8", rotate: "-1.5deg" },
@@ -12,6 +12,7 @@ const routeStyles = [
 
 export default function RoutesPage() {
   const routeData = getRoutes();
+  const settings = getSiteSettings();
 
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
@@ -132,7 +133,7 @@ export default function RoutesPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

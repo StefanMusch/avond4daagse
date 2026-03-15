@@ -60,6 +60,26 @@ export default defineConfig({
             description: "Datum voor de aftelklok, bijv. 2026-06-02T18:30:00",
           },
           {
+            type: "string",
+            name: "routeSectionTitle",
+            label: "Route sectie titel",
+          },
+          {
+            type: "string",
+            name: "routeSectionSubtitle",
+            label: "Route sectie ondertitel",
+          },
+          {
+            type: "string",
+            name: "ctaTitle",
+            label: "CTA titel",
+          },
+          {
+            type: "string",
+            name: "ctaDescription",
+            label: "CTA beschrijving",
+          },
+          {
             type: "object",
             name: "infoCards",
             label: "Info kaarten",
@@ -239,6 +259,77 @@ export default defineConfig({
         ],
       },
       {
+        name: "page",
+        label: "Pagina's",
+        path: "content/pages",
+        format: "json",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Titel",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "subtitle",
+            label: "Ondertitel",
+          },
+          {
+            type: "string",
+            name: "ctaTitle",
+            label: "CTA titel",
+          },
+          {
+            type: "string",
+            name: "ctaDescription",
+            label: "CTA beschrijving",
+          },
+          {
+            type: "string",
+            name: "ctaContactName",
+            label: "CTA contactpersoon naam",
+          },
+          {
+            type: "string",
+            name: "ctaContactPhone",
+            label: "CTA contactpersoon telefoon",
+          },
+          {
+            type: "string",
+            name: "introText",
+            label: "Introductietekst",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "aboutText",
+            label: "Over tekst",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "historyText",
+            label: "Historie tekst",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "string",
+            name: "specialMention",
+            label: "Speciale vermelding",
+            ui: {
+              component: "textarea",
+            },
+          },
+        ],
+      },
+      {
         name: "siteSettings",
         label: "Site-instellingen",
         path: "content/settings",
@@ -278,6 +369,14 @@ export default defineConfig({
             type: "string",
             name: "kvk",
             label: "KvK-nummer",
+          },
+          {
+            type: "string",
+            name: "footerDescription",
+            label: "Footer beschrijving",
+            ui: {
+              component: "textarea",
+            },
           },
         ],
       },

@@ -25,6 +25,10 @@ export interface HomeContent {
   heroDescription: string;
   edition: string;
   eventDate: string;
+  routeSectionTitle: string;
+  routeSectionSubtitle: string;
+  ctaTitle: string;
+  ctaDescription: string;
   infoCards: { icon: string; title: string; description: string }[];
 }
 
@@ -65,6 +69,30 @@ export interface VolunteerGroupContent {
   order: number;
 }
 
+export interface PageContent {
+  title: string;
+  subtitle?: string;
+  aboutText?: string;
+  historyText?: string;
+  specialMention?: string;
+  introText?: string;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaContactName?: string;
+  ctaContactPhone?: string;
+}
+
+export interface ContactPageContent {
+  title: string;
+  subtitle: string;
+  bureaus: {
+    title: string;
+    description: string;
+    buttonText: string;
+    email: string;
+  }[];
+}
+
 export interface SiteSettings {
   siteName: string;
   siteDescription: string;
@@ -73,6 +101,7 @@ export interface SiteSettings {
   address: string;
   postalCode: string;
   kvk: string;
+  footerDescription?: string;
 }
 
 // Getters
@@ -108,6 +137,18 @@ export function getBoardMembers(): BoardMemberContent[] {
   return readCollection<BoardMemberContent>("organisatie").sort(
     (a, b) => (a.order ?? 0) - (b.order ?? 0)
   );
+}
+
+export function getPageContent(slug: string): PageContent | null {
+  const filePath = path.join(contentDir, "pages", `${slug}.json`);
+  if (!fs.existsSync(filePath)) return null;
+  return readJsonFile<PageContent>(filePath);
+}
+
+export function getContactPageContent(): ContactPageContent | null {
+  const filePath = path.join(contentDir, "pages", "contact.json");
+  if (!fs.existsSync(filePath)) return null;
+  return readJsonFile<ContactPageContent>(filePath);
 }
 
 export function getVolunteerGroups(): VolunteerGroupContent[] {
