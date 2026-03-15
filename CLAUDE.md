@@ -39,6 +39,12 @@ git push origin main
 3. **Laad de content in de pagina via `src/lib/content.ts`** — voeg een getter-functie en type toe
 4. **Hardcode NOOIT teksten direct in pagina-componenten** — alle bewerkbare tekst moet uit de JSON content komen
 5. **Commit altijd zowel het schema (`tina/config.ts`) als de content (`content/`) bestanden**
+6. **Regenereer ALTIJD de Tina generated files** na schema- of contentwijzigingen:
+   ```bash
+   npx tinacms build --skip-cloud-checks
+   git add -f tina/__generated__ public/admin/index.html
+   ```
+   Deze files MOETEN mee in de commit, anders krijgt TinaCloud een GraphQL schema mismatch.
 
 ### Checklist voor nieuwe pagina's:
 - [ ] Collectie schema in `tina/config.ts`
@@ -46,6 +52,7 @@ git push origin main
 - [ ] Type + getter in `src/lib/content.ts`
 - [ ] Pagina laadt content via getter (server component)
 - [ ] Gedeelde componenten gebruiken: `NavBar`, `Footer`, `PageHero`, `Bunting`
+- [ ] `npx tinacms build --skip-cloud-checks` draaien en generated files mee committen
 
 ### Wat WEL hardcoded mag:
 - Layout/structuur (kleuren, spacing, grid)
@@ -67,7 +74,7 @@ git push origin main
 - Pagina's laden content via `src/lib/content.ts` helper
 - Admin panel: `/admin` (via TinaCloud)
 - Dev met CMS: `npm run dev` (start Tina + Next.js samen)
-- Build: `tinacms build && next build` (automatisch via `npm run build`)
+- Build: `tinacms build --skip-cloud-checks && next build` (automatisch via `npm run build`)
 - Env vars (in `.env` lokaal, in Vercel dashboard voor productie):
   - `NEXT_PUBLIC_TINA_CLIENT_ID`
   - `TINA_TOKEN`
@@ -89,7 +96,9 @@ git push origin main
 2. content/<naam>/    → maak JSON bestand(en) aan
 3. src/lib/content.ts → voeg TypeScript type + getter functie toe
 4. src/app/<route>/   → importeer getter, laad data, render in component
-5. git push           → TinaCloud indexeert automatisch
+5. npx tinacms build --skip-cloud-checks → regenereer generated files
+6. git add -f tina/__generated__ public/admin/index.html → stage generated files
+7. git push           → TinaCloud indexeert automatisch
 ```
 
 ## Lessen & conventies
