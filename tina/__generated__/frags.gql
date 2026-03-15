@@ -5,6 +5,10 @@ fragment HomeParts on Home {
   heroDescription
   edition
   eventDate
+  routeSectionTitle
+  routeSectionSubtitle
+  ctaTitle
+  ctaDescription
   infoCards {
     __typename
     icon
@@ -58,6 +62,20 @@ fragment VolunteerGroupParts on VolunteerGroup {
   order
 }
 
+fragment PageParts on Page {
+  __typename
+  title
+  subtitle
+  ctaTitle
+  ctaDescription
+  ctaContactName
+  ctaContactPhone
+  introText
+  aboutText
+  historyText
+  specialMention
+}
+
 fragment SiteSettingsParts on SiteSettings {
   __typename
   siteName
@@ -67,4 +85,5 @@ fragment SiteSettingsParts on SiteSettings {
   address
   postalCode
   kvk
+  footerDescription
 }

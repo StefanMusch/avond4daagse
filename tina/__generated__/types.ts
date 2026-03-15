@@ -94,6 +94,8 @@ export type Query = {
   boardMemberConnection: BoardMemberConnection;
   volunteerGroup: VolunteerGroup;
   volunteerGroupConnection: VolunteerGroupConnection;
+  page: Page;
+  pageConnection: PageConnection;
   siteSettings: SiteSettings;
   siteSettingsConnection: SiteSettingsConnection;
 };
@@ -210,6 +212,21 @@ export type QueryVolunteerGroupConnectionArgs = {
 };
 
 
+export type QueryPageArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPageConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PageFilter>;
+};
+
+
 export type QuerySiteSettingsArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
@@ -231,6 +248,7 @@ export type DocumentFilter = {
   sponsor?: InputMaybe<SponsorFilter>;
   boardMember?: InputMaybe<BoardMemberFilter>;
   volunteerGroup?: InputMaybe<VolunteerGroupFilter>;
+  page?: InputMaybe<PageFilter>;
   siteSettings?: InputMaybe<SiteSettingsFilter>;
 };
 
@@ -271,7 +289,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | SiteSettings | Folder;
+export type DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | Page | SiteSettings | Folder;
 
 export type HomeInfoCards = {
   __typename?: 'HomeInfoCards';
@@ -287,6 +305,10 @@ export type Home = Node & Document & {
   heroDescription?: Maybe<Scalars['String']['output']>;
   edition?: Maybe<Scalars['String']['output']>;
   eventDate?: Maybe<Scalars['String']['output']>;
+  routeSectionTitle?: Maybe<Scalars['String']['output']>;
+  routeSectionSubtitle?: Maybe<Scalars['String']['output']>;
+  ctaTitle?: Maybe<Scalars['String']['output']>;
+  ctaDescription?: Maybe<Scalars['String']['output']>;
   infoCards?: Maybe<Array<Maybe<HomeInfoCards>>>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -312,6 +334,10 @@ export type HomeFilter = {
   heroDescription?: InputMaybe<StringFilter>;
   edition?: InputMaybe<StringFilter>;
   eventDate?: InputMaybe<StringFilter>;
+  routeSectionTitle?: InputMaybe<StringFilter>;
+  routeSectionSubtitle?: InputMaybe<StringFilter>;
+  ctaTitle?: InputMaybe<StringFilter>;
+  ctaDescription?: InputMaybe<StringFilter>;
   infoCards?: InputMaybe<HomeInfoCardsFilter>;
 };
 
@@ -513,6 +539,49 @@ export type VolunteerGroupConnection = Connection & {
   edges?: Maybe<Array<Maybe<VolunteerGroupConnectionEdges>>>;
 };
 
+export type Page = Node & Document & {
+  __typename?: 'Page';
+  title: Scalars['String']['output'];
+  subtitle?: Maybe<Scalars['String']['output']>;
+  ctaTitle?: Maybe<Scalars['String']['output']>;
+  ctaDescription?: Maybe<Scalars['String']['output']>;
+  ctaContactName?: Maybe<Scalars['String']['output']>;
+  ctaContactPhone?: Maybe<Scalars['String']['output']>;
+  introText?: Maybe<Scalars['String']['output']>;
+  aboutText?: Maybe<Scalars['String']['output']>;
+  historyText?: Maybe<Scalars['String']['output']>;
+  specialMention?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type PageFilter = {
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+  ctaTitle?: InputMaybe<StringFilter>;
+  ctaDescription?: InputMaybe<StringFilter>;
+  ctaContactName?: InputMaybe<StringFilter>;
+  ctaContactPhone?: InputMaybe<StringFilter>;
+  introText?: InputMaybe<StringFilter>;
+  aboutText?: InputMaybe<StringFilter>;
+  historyText?: InputMaybe<StringFilter>;
+  specialMention?: InputMaybe<StringFilter>;
+};
+
+export type PageConnectionEdges = {
+  __typename?: 'PageConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Page>;
+};
+
+export type PageConnection = Connection & {
+  __typename?: 'PageConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<PageConnectionEdges>>>;
+};
+
 export type SiteSettings = Node & Document & {
   __typename?: 'SiteSettings';
   siteName?: Maybe<Scalars['String']['output']>;
@@ -522,6 +591,7 @@ export type SiteSettings = Node & Document & {
   address?: Maybe<Scalars['String']['output']>;
   postalCode?: Maybe<Scalars['String']['output']>;
   kvk?: Maybe<Scalars['String']['output']>;
+  footerDescription?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -535,6 +605,7 @@ export type SiteSettingsFilter = {
   address?: InputMaybe<StringFilter>;
   postalCode?: InputMaybe<StringFilter>;
   kvk?: InputMaybe<StringFilter>;
+  footerDescription?: InputMaybe<StringFilter>;
 };
 
 export type SiteSettingsConnectionEdges = {
@@ -569,6 +640,8 @@ export type Mutation = {
   createBoardMember: BoardMember;
   updateVolunteerGroup: VolunteerGroup;
   createVolunteerGroup: VolunteerGroup;
+  updatePage: Page;
+  createPage: Page;
   updateSiteSettings: SiteSettings;
   createSiteSettings: SiteSettings;
 };
@@ -679,6 +752,18 @@ export type MutationCreateVolunteerGroupArgs = {
 };
 
 
+export type MutationUpdatePageArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PageMutation;
+};
+
+
+export type MutationCreatePageArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PageMutation;
+};
+
+
 export type MutationUpdateSiteSettingsArgs = {
   relativePath: Scalars['String']['input'];
   params: SiteSettingsMutation;
@@ -697,6 +782,7 @@ export type DocumentUpdateMutation = {
   sponsor?: InputMaybe<SponsorMutation>;
   boardMember?: InputMaybe<BoardMemberMutation>;
   volunteerGroup?: InputMaybe<VolunteerGroupMutation>;
+  page?: InputMaybe<PageMutation>;
   siteSettings?: InputMaybe<SiteSettingsMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
@@ -708,6 +794,7 @@ export type DocumentMutation = {
   sponsor?: InputMaybe<SponsorMutation>;
   boardMember?: InputMaybe<BoardMemberMutation>;
   volunteerGroup?: InputMaybe<VolunteerGroupMutation>;
+  page?: InputMaybe<PageMutation>;
   siteSettings?: InputMaybe<SiteSettingsMutation>;
 };
 
@@ -723,6 +810,10 @@ export type HomeMutation = {
   heroDescription?: InputMaybe<Scalars['String']['input']>;
   edition?: InputMaybe<Scalars['String']['input']>;
   eventDate?: InputMaybe<Scalars['String']['input']>;
+  routeSectionTitle?: InputMaybe<Scalars['String']['input']>;
+  routeSectionSubtitle?: InputMaybe<Scalars['String']['input']>;
+  ctaTitle?: InputMaybe<Scalars['String']['input']>;
+  ctaDescription?: InputMaybe<Scalars['String']['input']>;
   infoCards?: InputMaybe<Array<InputMaybe<HomeInfoCardsMutation>>>;
 };
 
@@ -767,6 +858,19 @@ export type VolunteerGroupMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type PageMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  ctaTitle?: InputMaybe<Scalars['String']['input']>;
+  ctaDescription?: InputMaybe<Scalars['String']['input']>;
+  ctaContactName?: InputMaybe<Scalars['String']['input']>;
+  ctaContactPhone?: InputMaybe<Scalars['String']['input']>;
+  introText?: InputMaybe<Scalars['String']['input']>;
+  aboutText?: InputMaybe<Scalars['String']['input']>;
+  historyText?: InputMaybe<Scalars['String']['input']>;
+  specialMention?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type SiteSettingsMutation = {
   siteName?: InputMaybe<Scalars['String']['input']>;
   siteDescription?: InputMaybe<Scalars['String']['input']>;
@@ -775,9 +879,10 @@ export type SiteSettingsMutation = {
   address?: InputMaybe<Scalars['String']['input']>;
   postalCode?: InputMaybe<Scalars['String']['input']>;
   kvk?: InputMaybe<Scalars['String']['input']>;
+  footerDescription?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type HomePartsFragment = { __typename: 'Home', heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null };
+export type HomePartsFragment = { __typename: 'Home', heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, routeSectionTitle?: string | null, routeSectionSubtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null };
 
 export type RoutePartsFragment = { __typename: 'Route', name: string, distance: string, description?: string | null, startLocation?: string | null, mapEmbedUrl?: string | null, highlights?: Array<{ __typename: 'RouteHighlights', text?: string | null } | null> | null };
 
@@ -789,14 +894,16 @@ export type BoardMemberPartsFragment = { __typename: 'BoardMember', name: string
 
 export type VolunteerGroupPartsFragment = { __typename: 'VolunteerGroup', name: string, description?: string | null, icon?: string | null, order?: number | null };
 
-export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null };
+export type PagePartsFragment = { __typename: 'Page', title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null };
+
+export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, footerDescription?: string | null };
 
 export type HomeQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type HomeQuery = { __typename?: 'Query', home: { __typename: 'Home', id: string, heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null } };
+export type HomeQuery = { __typename?: 'Query', home: { __typename: 'Home', id: string, heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, routeSectionTitle?: string | null, routeSectionSubtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null } };
 
 export type HomeConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -808,7 +915,7 @@ export type HomeConnectionQueryVariables = Exact<{
 }>;
 
 
-export type HomeConnectionQuery = { __typename?: 'Query', homeConnection: { __typename?: 'HomeConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'HomeConnectionEdges', cursor: string, node?: { __typename: 'Home', id: string, heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null } | null } | null> | null } };
+export type HomeConnectionQuery = { __typename?: 'Query', homeConnection: { __typename?: 'HomeConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'HomeConnectionEdges', cursor: string, node?: { __typename: 'Home', id: string, heroTitle: string, heroSubtitle: string, heroDescription?: string | null, edition?: string | null, eventDate?: string | null, routeSectionTitle?: string | null, routeSectionSubtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, infoCards?: Array<{ __typename: 'HomeInfoCards', icon?: string | null, title?: string | null, description?: string | null } | null> | null } | null } | null> | null } };
 
 export type RouteQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -905,12 +1012,31 @@ export type VolunteerGroupConnectionQueryVariables = Exact<{
 
 export type VolunteerGroupConnectionQuery = { __typename?: 'Query', volunteerGroupConnection: { __typename?: 'VolunteerGroupConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'VolunteerGroupConnectionEdges', cursor: string, node?: { __typename: 'VolunteerGroup', id: string, name: string, description?: string | null, icon?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
+export type PageQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+
+export type PageConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PageFilter>;
+}>;
+
+
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+
 export type SiteSettingsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, footerDescription?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type SiteSettingsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -922,7 +1048,7 @@ export type SiteSettingsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, footerDescription?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const HomePartsFragmentDoc = gql`
     fragment HomeParts on Home {
@@ -932,6 +1058,10 @@ export const HomePartsFragmentDoc = gql`
   heroDescription
   edition
   eventDate
+  routeSectionTitle
+  routeSectionSubtitle
+  ctaTitle
+  ctaDescription
   infoCards {
     __typename
     icon
@@ -990,6 +1120,21 @@ export const VolunteerGroupPartsFragmentDoc = gql`
   order
 }
     `;
+export const PagePartsFragmentDoc = gql`
+    fragment PageParts on Page {
+  __typename
+  title
+  subtitle
+  ctaTitle
+  ctaDescription
+  ctaContactName
+  ctaContactPhone
+  introText
+  aboutText
+  historyText
+  specialMention
+}
+    `;
 export const SiteSettingsPartsFragmentDoc = gql`
     fragment SiteSettingsParts on SiteSettings {
   __typename
@@ -1000,6 +1145,7 @@ export const SiteSettingsPartsFragmentDoc = gql`
   address
   postalCode
   kvk
+  footerDescription
 }
     `;
 export const HomeDocument = gql`
@@ -1344,6 +1490,63 @@ export const VolunteerGroupConnectionDocument = gql`
   }
 }
     ${VolunteerGroupPartsFragmentDoc}`;
+export const PageDocument = gql`
+    query page($relativePath: String!) {
+  page(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PageParts
+  }
+}
+    ${PagePartsFragmentDoc}`;
+export const PageConnectionDocument = gql`
+    query pageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageFilter) {
+  pageConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...PageParts
+      }
+    }
+  }
+}
+    ${PagePartsFragmentDoc}`;
 export const SiteSettingsDocument = gql`
     query siteSettings($relativePath: String!) {
   siteSettings(relativePath: $relativePath) {
@@ -1439,6 +1642,12 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     volunteerGroupConnection(variables?: VolunteerGroupConnectionQueryVariables, options?: C): Promise<{data: VolunteerGroupConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: VolunteerGroupConnectionQueryVariables, query: string}> {
         return requester<{data: VolunteerGroupConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: VolunteerGroupConnectionQueryVariables, query: string}, VolunteerGroupConnectionQueryVariables>(VolunteerGroupConnectionDocument, variables, options);
+      },
+    page(variables: PageQueryVariables, options?: C): Promise<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}> {
+        return requester<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}, PageQueryVariables>(PageDocument, variables, options);
+      },
+    pageConnection(variables?: PageConnectionQueryVariables, options?: C): Promise<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}> {
+        return requester<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}, PageConnectionQueryVariables>(PageConnectionDocument, variables, options);
       },
     siteSettings(variables: SiteSettingsQueryVariables, options?: C): Promise<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}> {
         return requester<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}, SiteSettingsQueryVariables>(SiteSettingsDocument, variables, options);

@@ -66,6 +66,8 @@ type Query {
   boardMemberConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: BoardMemberFilter): BoardMemberConnection!
   volunteerGroup(relativePath: String): VolunteerGroup!
   volunteerGroupConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: VolunteerGroupFilter): VolunteerGroupConnection!
+  page(relativePath: String): Page!
+  pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
   siteSettings(relativePath: String): SiteSettings!
   siteSettingsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SiteSettingsFilter): SiteSettingsConnection!
 }
@@ -77,6 +79,7 @@ input DocumentFilter {
   sponsor: SponsorFilter
   boardMember: BoardMemberFilter
   volunteerGroup: VolunteerGroupFilter
+  page: PageFilter
   siteSettings: SiteSettingsFilter
 }
 
@@ -103,7 +106,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | SiteSettings | Folder
+union DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | Page | SiteSettings | Folder
 
 type HomeInfoCards {
   icon: String
@@ -117,6 +120,10 @@ type Home implements Node & Document {
   heroDescription: String
   edition: String
   eventDate: String
+  routeSectionTitle: String
+  routeSectionSubtitle: String
+  ctaTitle: String
+  ctaDescription: String
   infoCards: [HomeInfoCards]
   id: ID!
   _sys: SystemInfo!
@@ -142,6 +149,10 @@ input HomeFilter {
   heroDescription: StringFilter
   edition: StringFilter
   eventDate: StringFilter
+  routeSectionTitle: StringFilter
+  routeSectionSubtitle: StringFilter
+  ctaTitle: StringFilter
+  ctaDescription: StringFilter
   infoCards: HomeInfoCardsFilter
 }
 
@@ -325,6 +336,46 @@ type VolunteerGroupConnection implements Connection {
   edges: [VolunteerGroupConnectionEdges]
 }
 
+type Page implements Node & Document {
+  title: String!
+  subtitle: String
+  ctaTitle: String
+  ctaDescription: String
+  ctaContactName: String
+  ctaContactPhone: String
+  introText: String
+  aboutText: String
+  historyText: String
+  specialMention: String
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input PageFilter {
+  title: StringFilter
+  subtitle: StringFilter
+  ctaTitle: StringFilter
+  ctaDescription: StringFilter
+  ctaContactName: StringFilter
+  ctaContactPhone: StringFilter
+  introText: StringFilter
+  aboutText: StringFilter
+  historyText: StringFilter
+  specialMention: StringFilter
+}
+
+type PageConnectionEdges {
+  cursor: String!
+  node: Page
+}
+
+type PageConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [PageConnectionEdges]
+}
+
 type SiteSettings implements Node & Document {
   siteName: String
   siteDescription: String
@@ -333,6 +384,7 @@ type SiteSettings implements Node & Document {
   address: String
   postalCode: String
   kvk: String
+  footerDescription: String
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -346,6 +398,7 @@ input SiteSettingsFilter {
   address: StringFilter
   postalCode: StringFilter
   kvk: StringFilter
+  footerDescription: StringFilter
 }
 
 type SiteSettingsConnectionEdges {
@@ -377,6 +430,8 @@ type Mutation {
   createBoardMember(relativePath: String!, params: BoardMemberMutation!): BoardMember!
   updateVolunteerGroup(relativePath: String!, params: VolunteerGroupMutation!): VolunteerGroup!
   createVolunteerGroup(relativePath: String!, params: VolunteerGroupMutation!): VolunteerGroup!
+  updatePage(relativePath: String!, params: PageMutation!): Page!
+  createPage(relativePath: String!, params: PageMutation!): Page!
   updateSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
   createSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
 }
@@ -388,6 +443,7 @@ input DocumentUpdateMutation {
   sponsor: SponsorMutation
   boardMember: BoardMemberMutation
   volunteerGroup: VolunteerGroupMutation
+  page: PageMutation
   siteSettings: SiteSettingsMutation
   relativePath: String
 }
@@ -399,6 +455,7 @@ input DocumentMutation {
   sponsor: SponsorMutation
   boardMember: BoardMemberMutation
   volunteerGroup: VolunteerGroupMutation
+  page: PageMutation
   siteSettings: SiteSettingsMutation
 }
 
@@ -414,6 +471,10 @@ input HomeMutation {
   heroDescription: String
   edition: String
   eventDate: String
+  routeSectionTitle: String
+  routeSectionSubtitle: String
+  ctaTitle: String
+  ctaDescription: String
   infoCards: [HomeInfoCardsMutation]
 }
 
@@ -458,6 +519,19 @@ input VolunteerGroupMutation {
   order: Float
 }
 
+input PageMutation {
+  title: String
+  subtitle: String
+  ctaTitle: String
+  ctaDescription: String
+  ctaContactName: String
+  ctaContactPhone: String
+  introText: String
+  aboutText: String
+  historyText: String
+  specialMention: String
+}
+
 input SiteSettingsMutation {
   siteName: String
   siteDescription: String
@@ -466,6 +540,7 @@ input SiteSettingsMutation {
   address: String
   postalCode: String
   kvk: String
+  footerDescription: String
 }
 
 schema {
