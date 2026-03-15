@@ -1,0 +1,70 @@
+fragment HomeParts on Home {
+  __typename
+  heroTitle
+  heroSubtitle
+  heroDescription
+  edition
+  eventDate
+  infoCards {
+    __typename
+    icon
+    title
+    description
+  }
+}
+
+fragment RouteParts on Route {
+  __typename
+  name
+  distance
+  description
+  startLocation
+  mapEmbedUrl
+  highlights {
+    __typename
+    text
+  }
+}
+
+fragment FaqItemParts on FaqItem {
+  __typename
+  question
+  answer
+  order
+}
+
+fragment SponsorParts on Sponsor {
+  __typename
+  name
+  logo
+  website
+  tier
+  order
+}
+
+fragment BoardMemberParts on BoardMember {
+  __typename
+  name
+  role
+  photo
+  order
+}
+
+fragment VolunteerGroupParts on VolunteerGroup {
+  __typename
+  name
+  description
+  icon
+  order
+}
+
+fragment SiteSettingsParts on SiteSettings {
+  __typename
+  siteName
+  siteDescription
+  email
+  phone
+  address
+  postalCode
+  kvk
+}
