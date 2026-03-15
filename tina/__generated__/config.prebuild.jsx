@@ -251,7 +251,7 @@ var config_default = defineConfig({
         ]
       },
       {
-        name: "page",
+        name: "pageContent",
         label: "Pagina's",
         path: "content/pages",
         format: "json",

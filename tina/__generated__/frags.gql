@@ -62,7 +62,7 @@ fragment VolunteerGroupParts on VolunteerGroup {
   order
 }
 
-fragment PageParts on Page {
+fragment PageContentParts on PageContent {
   __typename
   title
   subtitle

@@ -66,8 +66,8 @@ type Query {
   boardMemberConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: BoardMemberFilter): BoardMemberConnection!
   volunteerGroup(relativePath: String): VolunteerGroup!
   volunteerGroupConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: VolunteerGroupFilter): VolunteerGroupConnection!
-  page(relativePath: String): Page!
-  pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
+  pageContent(relativePath: String): PageContent!
+  pageContentConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageContentFilter): PageContentConnection!
   siteSettings(relativePath: String): SiteSettings!
   siteSettingsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SiteSettingsFilter): SiteSettingsConnection!
 }
@@ -79,7 +79,7 @@ input DocumentFilter {
   sponsor: SponsorFilter
   boardMember: BoardMemberFilter
   volunteerGroup: VolunteerGroupFilter
-  page: PageFilter
+  pageContent: PageContentFilter
   siteSettings: SiteSettingsFilter
 }
 
@@ -106,7 +106,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | Page | SiteSettings | Folder
+union DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | PageContent | SiteSettings | Folder
 
 type HomeInfoCards {
   icon: String
@@ -336,7 +336,7 @@ type VolunteerGroupConnection implements Connection {
   edges: [VolunteerGroupConnectionEdges]
 }
 
-type Page implements Node & Document {
+type PageContent implements Node & Document {
   title: String!
   subtitle: String
   ctaTitle: String
@@ -352,7 +352,7 @@ type Page implements Node & Document {
   _values: JSON!
 }
 
-input PageFilter {
+input PageContentFilter {
   title: StringFilter
   subtitle: StringFilter
   ctaTitle: StringFilter
@@ -365,15 +365,15 @@ input PageFilter {
   specialMention: StringFilter
 }
 
-type PageConnectionEdges {
+type PageContentConnectionEdges {
   cursor: String!
-  node: Page
+  node: PageContent
 }
 
-type PageConnection implements Connection {
+type PageContentConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [PageConnectionEdges]
+  edges: [PageContentConnectionEdges]
 }
 
 type SiteSettings implements Node & Document {
@@ -430,8 +430,8 @@ type Mutation {
   createBoardMember(relativePath: String!, params: BoardMemberMutation!): BoardMember!
   updateVolunteerGroup(relativePath: String!, params: VolunteerGroupMutation!): VolunteerGroup!
   createVolunteerGroup(relativePath: String!, params: VolunteerGroupMutation!): VolunteerGroup!
-  updatePage(relativePath: String!, params: PageMutation!): Page!
-  createPage(relativePath: String!, params: PageMutation!): Page!
+  updatePageContent(relativePath: String!, params: PageContentMutation!): PageContent!
+  createPageContent(relativePath: String!, params: PageContentMutation!): PageContent!
   updateSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
   createSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
 }
@@ -443,7 +443,7 @@ input DocumentUpdateMutation {
   sponsor: SponsorMutation
   boardMember: BoardMemberMutation
   volunteerGroup: VolunteerGroupMutation
-  page: PageMutation
+  pageContent: PageContentMutation
   siteSettings: SiteSettingsMutation
   relativePath: String
 }
@@ -455,7 +455,7 @@ input DocumentMutation {
   sponsor: SponsorMutation
   boardMember: BoardMemberMutation
   volunteerGroup: VolunteerGroupMutation
-  page: PageMutation
+  pageContent: PageContentMutation
   siteSettings: SiteSettingsMutation
 }
 
@@ -519,7 +519,7 @@ input VolunteerGroupMutation {
   order: Float
 }
 
-input PageMutation {
+input PageContentMutation {
   title: String
   subtitle: String
   ctaTitle: String

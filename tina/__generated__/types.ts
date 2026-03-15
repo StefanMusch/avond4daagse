@@ -94,8 +94,8 @@ export type Query = {
   boardMemberConnection: BoardMemberConnection;
   volunteerGroup: VolunteerGroup;
   volunteerGroupConnection: VolunteerGroupConnection;
-  page: Page;
-  pageConnection: PageConnection;
+  pageContent: PageContent;
+  pageContentConnection: PageContentConnection;
   siteSettings: SiteSettings;
   siteSettingsConnection: SiteSettingsConnection;
 };
@@ -212,18 +212,18 @@ export type QueryVolunteerGroupConnectionArgs = {
 };
 
 
-export type QueryPageArgs = {
+export type QueryPageContentArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryPageConnectionArgs = {
+export type QueryPageContentConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PageFilter>;
+  filter?: InputMaybe<PageContentFilter>;
 };
 
 
@@ -248,7 +248,7 @@ export type DocumentFilter = {
   sponsor?: InputMaybe<SponsorFilter>;
   boardMember?: InputMaybe<BoardMemberFilter>;
   volunteerGroup?: InputMaybe<VolunteerGroupFilter>;
-  page?: InputMaybe<PageFilter>;
+  pageContent?: InputMaybe<PageContentFilter>;
   siteSettings?: InputMaybe<SiteSettingsFilter>;
 };
 
@@ -289,7 +289,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | Page | SiteSettings | Folder;
+export type DocumentNode = Home | Route | FaqItem | Sponsor | BoardMember | VolunteerGroup | PageContent | SiteSettings | Folder;
 
 export type HomeInfoCards = {
   __typename?: 'HomeInfoCards';
@@ -539,8 +539,8 @@ export type VolunteerGroupConnection = Connection & {
   edges?: Maybe<Array<Maybe<VolunteerGroupConnectionEdges>>>;
 };
 
-export type Page = Node & Document & {
-  __typename?: 'Page';
+export type PageContent = Node & Document & {
+  __typename?: 'PageContent';
   title: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
   ctaTitle?: Maybe<Scalars['String']['output']>;
@@ -556,7 +556,7 @@ export type Page = Node & Document & {
   _values: Scalars['JSON']['output'];
 };
 
-export type PageFilter = {
+export type PageContentFilter = {
   title?: InputMaybe<StringFilter>;
   subtitle?: InputMaybe<StringFilter>;
   ctaTitle?: InputMaybe<StringFilter>;
@@ -569,17 +569,17 @@ export type PageFilter = {
   specialMention?: InputMaybe<StringFilter>;
 };
 
-export type PageConnectionEdges = {
-  __typename?: 'PageConnectionEdges';
+export type PageContentConnectionEdges = {
+  __typename?: 'PageContentConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<Page>;
+  node?: Maybe<PageContent>;
 };
 
-export type PageConnection = Connection & {
-  __typename?: 'PageConnection';
+export type PageContentConnection = Connection & {
+  __typename?: 'PageContentConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<PageConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<PageContentConnectionEdges>>>;
 };
 
 export type SiteSettings = Node & Document & {
@@ -640,8 +640,8 @@ export type Mutation = {
   createBoardMember: BoardMember;
   updateVolunteerGroup: VolunteerGroup;
   createVolunteerGroup: VolunteerGroup;
-  updatePage: Page;
-  createPage: Page;
+  updatePageContent: PageContent;
+  createPageContent: PageContent;
   updateSiteSettings: SiteSettings;
   createSiteSettings: SiteSettings;
 };
@@ -752,15 +752,15 @@ export type MutationCreateVolunteerGroupArgs = {
 };
 
 
-export type MutationUpdatePageArgs = {
+export type MutationUpdatePageContentArgs = {
   relativePath: Scalars['String']['input'];
-  params: PageMutation;
+  params: PageContentMutation;
 };
 
 
-export type MutationCreatePageArgs = {
+export type MutationCreatePageContentArgs = {
   relativePath: Scalars['String']['input'];
-  params: PageMutation;
+  params: PageContentMutation;
 };
 
 
@@ -782,7 +782,7 @@ export type DocumentUpdateMutation = {
   sponsor?: InputMaybe<SponsorMutation>;
   boardMember?: InputMaybe<BoardMemberMutation>;
   volunteerGroup?: InputMaybe<VolunteerGroupMutation>;
-  page?: InputMaybe<PageMutation>;
+  pageContent?: InputMaybe<PageContentMutation>;
   siteSettings?: InputMaybe<SiteSettingsMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
@@ -794,7 +794,7 @@ export type DocumentMutation = {
   sponsor?: InputMaybe<SponsorMutation>;
   boardMember?: InputMaybe<BoardMemberMutation>;
   volunteerGroup?: InputMaybe<VolunteerGroupMutation>;
-  page?: InputMaybe<PageMutation>;
+  pageContent?: InputMaybe<PageContentMutation>;
   siteSettings?: InputMaybe<SiteSettingsMutation>;
 };
 
@@ -858,7 +858,7 @@ export type VolunteerGroupMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type PageMutation = {
+export type PageContentMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   ctaTitle?: InputMaybe<Scalars['String']['input']>;
@@ -894,7 +894,7 @@ export type BoardMemberPartsFragment = { __typename: 'BoardMember', name: string
 
 export type VolunteerGroupPartsFragment = { __typename: 'VolunteerGroup', name: string, description?: string | null, icon?: string | null, order?: number | null };
 
-export type PagePartsFragment = { __typename: 'Page', title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null };
+export type PageContentPartsFragment = { __typename: 'PageContent', title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null };
 
 export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, siteDescription?: string | null, email?: string | null, phone?: string | null, address?: string | null, postalCode?: string | null, kvk?: string | null, footerDescription?: string | null };
 
@@ -1012,24 +1012,24 @@ export type VolunteerGroupConnectionQueryVariables = Exact<{
 
 export type VolunteerGroupConnectionQuery = { __typename?: 'Query', volunteerGroupConnection: { __typename?: 'VolunteerGroupConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'VolunteerGroupConnectionEdges', cursor: string, node?: { __typename: 'VolunteerGroup', id: string, name: string, description?: string | null, icon?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
-export type PageQueryVariables = Exact<{
+export type PageContentQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PageContentQuery = { __typename?: 'Query', pageContent: { __typename: 'PageContent', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
-export type PageConnectionQueryVariables = Exact<{
+export type PageContentConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PageFilter>;
+  filter?: InputMaybe<PageContentFilter>;
 }>;
 
 
-export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PageContentConnectionQuery = { __typename?: 'Query', pageContentConnection: { __typename?: 'PageContentConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageContentConnectionEdges', cursor: string, node?: { __typename: 'PageContent', id: string, title: string, subtitle?: string | null, ctaTitle?: string | null, ctaDescription?: string | null, ctaContactName?: string | null, ctaContactPhone?: string | null, introText?: string | null, aboutText?: string | null, historyText?: string | null, specialMention?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type SiteSettingsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1120,8 +1120,8 @@ export const VolunteerGroupPartsFragmentDoc = gql`
   order
 }
     `;
-export const PagePartsFragmentDoc = gql`
-    fragment PageParts on Page {
+export const PageContentPartsFragmentDoc = gql`
+    fragment PageContentParts on PageContent {
   __typename
   title
   subtitle
@@ -1490,9 +1490,9 @@ export const VolunteerGroupConnectionDocument = gql`
   }
 }
     ${VolunteerGroupPartsFragmentDoc}`;
-export const PageDocument = gql`
-    query page($relativePath: String!) {
-  page(relativePath: $relativePath) {
+export const PageContentDocument = gql`
+    query pageContent($relativePath: String!) {
+  pageContent(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -1505,13 +1505,13 @@ export const PageDocument = gql`
       }
       id
     }
-    ...PageParts
+    ...PageContentParts
   }
 }
-    ${PagePartsFragmentDoc}`;
-export const PageConnectionDocument = gql`
-    query pageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageFilter) {
-  pageConnection(
+    ${PageContentPartsFragmentDoc}`;
+export const PageContentConnectionDocument = gql`
+    query pageContentConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageContentFilter) {
+  pageContentConnection(
     before: $before
     after: $after
     first: $first
@@ -1541,12 +1541,12 @@ export const PageConnectionDocument = gql`
           }
           id
         }
-        ...PageParts
+        ...PageContentParts
       }
     }
   }
 }
-    ${PagePartsFragmentDoc}`;
+    ${PageContentPartsFragmentDoc}`;
 export const SiteSettingsDocument = gql`
     query siteSettings($relativePath: String!) {
   siteSettings(relativePath: $relativePath) {
@@ -1643,11 +1643,11 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
     volunteerGroupConnection(variables?: VolunteerGroupConnectionQueryVariables, options?: C): Promise<{data: VolunteerGroupConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: VolunteerGroupConnectionQueryVariables, query: string}> {
         return requester<{data: VolunteerGroupConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: VolunteerGroupConnectionQueryVariables, query: string}, VolunteerGroupConnectionQueryVariables>(VolunteerGroupConnectionDocument, variables, options);
       },
-    page(variables: PageQueryVariables, options?: C): Promise<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}> {
-        return requester<{data: PageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageQueryVariables, query: string}, PageQueryVariables>(PageDocument, variables, options);
+    pageContent(variables: PageContentQueryVariables, options?: C): Promise<{data: PageContentQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageContentQueryVariables, query: string}> {
+        return requester<{data: PageContentQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageContentQueryVariables, query: string}, PageContentQueryVariables>(PageContentDocument, variables, options);
       },
-    pageConnection(variables?: PageConnectionQueryVariables, options?: C): Promise<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}> {
-        return requester<{data: PageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageConnectionQueryVariables, query: string}, PageConnectionQueryVariables>(PageConnectionDocument, variables, options);
+    pageContentConnection(variables?: PageContentConnectionQueryVariables, options?: C): Promise<{data: PageContentConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageContentConnectionQueryVariables, query: string}> {
+        return requester<{data: PageContentConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PageContentConnectionQueryVariables, query: string}, PageContentConnectionQueryVariables>(PageContentConnectionDocument, variables, options);
       },
     siteSettings(variables: SiteSettingsQueryVariables, options?: C): Promise<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}> {
         return requester<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}, SiteSettingsQueryVariables>(SiteSettingsDocument, variables, options);

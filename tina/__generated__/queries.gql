@@ -328,8 +328,8 @@ query volunteerGroupConnection($before: String, $after: String, $first: Float, $
   }
 }
 
-query page($relativePath: String!) {
-  page(relativePath: $relativePath) {
+query pageContent($relativePath: String!) {
+  pageContent(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -342,12 +342,12 @@ query page($relativePath: String!) {
       }
       id
     }
-    ...PageParts
+    ...PageContentParts
   }
 }
 
-query pageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageFilter) {
-  pageConnection(
+query pageContentConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PageContentFilter) {
+  pageContentConnection(
     before: $before
     after: $after
     first: $first
@@ -377,7 +377,7 @@ query pageConnection($before: String, $after: String, $first: Float, $last: Floa
           }
           id
         }
-        ...PageParts
+        ...PageContentParts
       }
     }
   }
