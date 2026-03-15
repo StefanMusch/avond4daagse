@@ -1,0 +1,12 @@
+{
+  "name": "Ontdek-route",
+  "distance": "3 km",
+  "description": "Gezellige korte ronde door het centrum van Drunen. Ideaal voor de allerkleinsten en hun begeleiders. De route gaat langs speeltuinen en door het dorpshart.",
+  "startLocation": "Sporthal De Driesprong, Drunen",
+  "mapEmbedUrl": "",
+  "highlights": [
+    { "text": "Geschikt voor buggy's en rolstoelen" },
+    { "text": "Langs de speeltuin bij het park" },
+    { "text": "Door het gezellige dorpscentrum" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Uitdaging-route",
+  "distance": "7,5 km",
+  "description": "De langste route voert door het buitengebied en langs de prachtige Loonse en Drunense Duinen. Voor de echte doorzetters!",
+  "startLocation": "Sporthal De Driesprong, Drunen",
+  "mapEmbedUrl": "",
+  "highlights": [
+    { "text": "Door de Loonse en Drunense Duinen" },
+    { "text": "Langs het buitengebied van Drunen" },
+    { "text": "Prachtig uitzicht bij zonsondergang" }
+  ]
+}

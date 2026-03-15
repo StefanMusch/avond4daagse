@@ -1,18 +1,17 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Bunting from "@/components/Bunting";
 import Countdown from "@/components/Countdown";
+import { getHomeContent, getSponsors, getFAQs } from "@/lib/content";
+import type { HomeContent, SponsorContent, FAQContent } from "@/lib/content";
 
-function Hero() {
+function Hero({ content }: { content: HomeContent }) {
   return (
     <section className="relative pt-16 overflow-hidden bg-[#FFF8F2]">
       <Bunting />
       <div className="max-w-4xl mx-auto px-4 pt-4 pb-16 text-center">
-        {/* Logo with Drunen */}
         <div className="mb-8">
           <Image
             src="/logo.png"
@@ -27,22 +26,21 @@ function Hero() {
           </div>
         </div>
 
-        {/* Badge */}
         <div className="inline-block mb-6 relative">
           <div className="bg-[#E6007E] text-white font-['Quicksand'] font-bold text-sm px-6 py-2 rounded-sm" style={{ transform: "rotate(-2deg)" }}>
-            57e Editie &bull; 2 t/m 5 juni 2026
+            {content.edition}
           </div>
         </div>
 
         <h1 className="font-['Quicksand'] font-bold text-4xl md:text-6xl text-[#4A4A4A] leading-tight mb-4">
-          Héél Drunen
+          {content.heroTitle}
         </h1>
         <h2 className="font-['Quicksand'] font-bold text-3xl md:text-5xl mb-8" style={{ color: "#E6007E", transform: "rotate(-1deg)" }}>
-          wandelt weer!
+          {content.heroSubtitle}
         </h2>
 
         <p className="font-['Source_Sans_3'] text-lg text-[#4A4A4A]/70 mb-10 max-w-lg mx-auto">
-          Vier avonden feest, wandelplezier en gezelligheid door het mooie Drunen. Jong en oud, iedereen doet mee!
+          {content.heroDescription}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -60,7 +58,6 @@ function Hero() {
         <Countdown />
       </div>
 
-      {/* Wavy divider */}
       <svg className="w-full -mb-1" viewBox="0 0 1440 60" preserveAspectRatio="none">
         <path d="M0,40 C240,60 480,0 720,30 C960,60 1200,10 1440,40 L1440,60 L0,60 Z" fill="#8CB808" />
       </svg>
@@ -68,25 +65,20 @@ function Hero() {
   );
 }
 
-function InfoCards() {
-  const cards = [
-    { icon: "🎪", title: "4 Feestelijke avonden", desc: "Dinsdag t/m vrijdag, start om 18:30", bg: "#E6007E", rotate: "-2deg" },
-    { icon: "👨‍👩‍👧‍👦", title: "Het hele dorp doet mee", desc: "Van peuter tot opa & oma, iedereen is welkom", bg: "#2B9AC8", rotate: "1deg" },
-    { icon: "🏅", title: "Medaille voor iedereen", desc: "Alle finishers krijgen een mooie herinnering", bg: "#8CB808", rotate: "-1deg" },
-  ];
-
+function InfoCards({ cards }: { cards: HomeContent["infoCards"] }) {
+  const rotations = ["-2deg", "1deg", "-1deg"];
   return (
     <section className="py-16 px-4 bg-[#8CB808]">
       <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
-        {cards.map((c) => (
+        {cards.map((c, i) => (
           <div
             key={c.title}
             className="bg-[#FFF8F2] rounded-sm p-8 shadow-lg hover:shadow-xl transition-shadow"
-            style={{ transform: `rotate(${c.rotate})` }}
+            style={{ transform: `rotate(${rotations[i % rotations.length]})` }}
           >
             <div className="text-5xl mb-4">{c.icon}</div>
             <h3 className="font-['Quicksand'] font-bold text-xl text-[#4A4A4A] mb-2">{c.title}</h3>
-            <p className="font-['Source_Sans_3'] text-[#4A4A4A]/70">{c.desc}</p>
+            <p className="font-['Source_Sans_3'] text-[#4A4A4A]/70">{c.description}</p>
           </div>
         ))}
       </div>
@@ -103,7 +95,6 @@ function Routes() {
 
   return (
     <section className="relative py-20 px-4 bg-[#FFF8F2]">
-      {/* Top wave */}
       <svg className="absolute top-0 left-0 w-full -mt-1" viewBox="0 0 1440 60" preserveAspectRatio="none">
         <path d="M0,0 L0,20 C240,50 480,0 720,30 C960,50 1200,10 1440,20 L1440,0 Z" fill="#8CB808" />
       </svg>
@@ -153,7 +144,6 @@ function RegistrationCTA() {
   return (
     <section className="relative py-20 px-4 bg-[#E6007E]/5">
       <Bunting colors={["#E6007E", "#8CB808", "#2B9AC8"]} />
-
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="font-['Quicksand'] font-bold text-3xl md:text-4xl text-[#4A4A4A] mb-3">
           Doe je mee?
@@ -161,7 +151,6 @@ function RegistrationCTA() {
         <p className="font-['Source_Sans_3'] text-[#4A4A4A]/60 mb-8">
           Schrijf je in vóór 1 juni 2026! De inschrijfkosten zijn €5,- per persoon.
         </p>
-
         <Link
           href="/inschrijven"
           className="inline-flex items-center justify-center px-12 py-5 font-['Quicksand'] font-bold text-lg text-white bg-[#E6007E] hover:bg-[#cc006e] transition-colors shadow-lg"
@@ -174,8 +163,7 @@ function RegistrationCTA() {
   );
 }
 
-function Sponsors() {
-  const sponsors = ["Albert Heijn", "Jumbo", "Rabobank", "NS", "Natuurmonumenten", "Gemeente Heusden"];
+function SponsorsSection({ sponsors }: { sponsors: SponsorContent[] }) {
   return (
     <section className="py-16 px-4 bg-[#FFF8F2]">
       <div className="max-w-5xl mx-auto text-center">
@@ -184,8 +172,8 @@ function Sponsors() {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
           {sponsors.map((s, i) => (
-            <div key={s} className="bg-white h-20 flex items-center justify-center shadow-sm border-2 border-dashed border-[#E6007E]/15" style={{ borderRadius: "4px 12px 4px 12px", transform: `rotate(${i % 2 === 0 ? -1 : 1}deg)` }}>
-              <span className="font-['Source_Sans_3'] font-medium text-[#4A4A4A]/40 text-sm">{s}</span>
+            <div key={s.name} className="bg-white h-20 flex items-center justify-center shadow-sm border-2 border-dashed border-[#E6007E]/15" style={{ borderRadius: "4px 12px 4px 12px", transform: `rotate(${i % 2 === 0 ? -1 : 1}deg)` }}>
+              <span className="font-['Source_Sans_3'] font-medium text-[#4A4A4A]/40 text-sm">{s.name}</span>
             </div>
           ))}
         </div>
@@ -199,12 +187,8 @@ function Sponsors() {
   );
 }
 
-function FAQPreview() {
-  const faqs = [
-    { q: "Wat kost deelname?", a: "De inschrijfkosten zijn €5,- per persoon. Kinderen tot 4 jaar zijn gratis." },
-    { q: "Kan ik me ter plekke inschrijven?", a: "Nee, inschrijving is alleen vooraf mogelijk tot en met 1 juni 2026." },
-    { q: "Zijn honden toegestaan?", a: "Honden zijn welkom, mits aangelijnd." },
-  ];
+function FAQPreview({ faqs }: { faqs: FAQContent[] }) {
+  const previewFaqs = faqs.slice(0, 3);
   return (
     <section className="py-20 px-4 bg-[#9B1B5A]">
       <div className="max-w-2xl mx-auto">
@@ -212,13 +196,13 @@ function FAQPreview() {
           Veelgestelde vragen
         </h2>
         <div className="space-y-4">
-          {faqs.map((f, i) => (
-            <details key={f.q} className="bg-[#FFF8F2] shadow-md group" style={{ borderRadius: "4px 16px 4px 16px", transform: `rotate(${i % 2 === 0 ? -0.5 : 0.5}deg)` }}>
+          {previewFaqs.map((f, i) => (
+            <details key={f.question} className="bg-[#FFF8F2] shadow-md group" style={{ borderRadius: "4px 16px 4px 16px", transform: `rotate(${i % 2 === 0 ? -0.5 : 0.5}deg)` }}>
               <summary className="cursor-pointer p-5 font-['Quicksand'] font-bold text-[#4A4A4A] flex justify-between items-center list-none">
-                {f.q}
+                {f.question}
                 <span className="text-[#E6007E] text-2xl group-open:rotate-45 transition-transform">+</span>
               </summary>
-              <div className="px-5 pb-5 font-['Source_Sans_3'] text-[#4A4A4A]/70">{f.a}</div>
+              <div className="px-5 pb-5 font-['Source_Sans_3'] text-[#4A4A4A]/70">{f.answer}</div>
             </details>
           ))}
         </div>
@@ -233,15 +217,19 @@ function FAQPreview() {
 }
 
 export default function Home() {
+  const homeContent = getHomeContent();
+  const sponsors = getSponsors();
+  const faqs = getFAQs();
+
   return (
     <div className="min-h-screen bg-[#FFF8F2]">
       <NavBar />
-      <Hero />
-      <InfoCards />
+      <Hero content={homeContent} />
+      <InfoCards cards={homeContent.infoCards} />
       <Routes />
       <RegistrationCTA />
-      <Sponsors />
-      <FAQPreview />
+      <SponsorsSection sponsors={sponsors} />
+      <FAQPreview faqs={faqs} />
       <Footer />
     </div>
   );

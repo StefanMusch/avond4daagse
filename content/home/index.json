@@ -1,0 +1,24 @@
+{
+  "heroTitle": "Héél Drunen",
+  "heroSubtitle": "wandelt weer!",
+  "heroDescription": "Vier avonden feest, wandelplezier en gezelligheid door het mooie Drunen. Jong en oud, iedereen doet mee!",
+  "edition": "57e Editie • 2 t/m 5 juni 2026",
+  "eventDate": "2026-06-02T18:30:00",
+  "infoCards": [
+    {
+      "icon": "🎪",
+      "title": "4 Feestelijke avonden",
+      "description": "Dinsdag t/m vrijdag, start om 18:30"
+    },
+    {
+      "icon": "👨‍👩‍👧‍👦",
+      "title": "Het hele dorp doet mee",
+      "description": "Van peuter tot opa & oma, iedereen is welkom"
+    },
+    {
+      "icon": "🏅",
+      "title": "Medaille voor iedereen",
+      "description": "Alle finishers krijgen een mooie herinnering"
+    }
+  ]
+}

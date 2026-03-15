@@ -1,0 +1,12 @@
+{
+  "name": "Geniet-route",
+  "distance": "5 km",
+  "description": "De populairste route! Langs de mooiste plekjes van Drunen. Door parken, langs historische gebouwen en door woonwijken waar bewoners de straat versieren.",
+  "startLocation": "Sporthal De Driesprong, Drunen",
+  "mapEmbedUrl": "",
+  "highlights": [
+    { "text": "Langs het gemeentehuis en de kerk" },
+    { "text": "Door het versierde centrum" },
+    { "text": "Langs de Baardwijkse Overlaat" }
+  ]
+}
